@@ -52,7 +52,7 @@ const Header = () => {
           {isAuthenticated ? (
             <>
               <NavLink to={ROUTES.MYPAGE} className={isActive(ROUTES.MYPAGE)}>마이페이지</NavLink>
-              <UserInfo>👤 {currentUser?.name}</UserInfo>
+              <UserInfo>유저 : {currentUser?.name}</UserInfo>
               <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
             </>
           ) : (

@@ -386,11 +386,11 @@ const DecisionDetailPage = () => {
     };
 
     const handleAddRetrospective = () => {
-        if (!isAuthenticated) {
+        if (!isAuthenticated || !currentUser) {
             alert('로그인이 필요합니다.');
             return;
         }
-        if (!isDecisionOwner) {
+        if (!isDecisionOwner || !currentUser) {
             alert('작성자만 회고를 작성할 수 있습니다.');
             return;
         }
@@ -407,7 +407,7 @@ const DecisionDetailPage = () => {
     };
 
     const handleDelete = () => {
-        if (!isDecisionOwner) {
+        if (!isDecisionOwner || !currentUser) {
             alert('작성자만 삭제할 수 있습니다.');
             return;
         }
@@ -422,7 +422,7 @@ const DecisionDetailPage = () => {
     };
 
     const handleEdit = () => {
-        if (!isDecisionOwner) {
+        if (!isDecisionOwner || !currentUser) {
             alert('작성자만 수정할 수 있습니다.');
             return;
         }
@@ -430,6 +430,10 @@ const DecisionDetailPage = () => {
     };
 
     const handleUpdateDecision = (updatedData) => {
+        if (!currentUser) {
+            alert('로그인이 필요합니다.');
+            return;
+        }
         const success = updateDecision(decision.id, updatedData, currentUser.id);
         if (success) {
             setShowEditModal(false);
@@ -479,7 +483,7 @@ const DecisionDetailPage = () => {
                         {decision.type}
                     </Badge>
                     <AuthorBadge>
-                        👤 {decision.userName}
+                        유저 : {decision.userName}
                         {isDecisionOwner && ' (나)'}
                     </AuthorBadge>
                     <DateText>{formatDate(decision.decisionDate)}</DateText>
@@ -487,19 +491,19 @@ const DecisionDetailPage = () => {
 
                 {isDecisionOwner && (
                     <ActionButtons>
-                        <EditButton onClick={handleEdit}>✏️ 수정</EditButton>
-                        <DeleteButton onClick={handleDelete}>🗑️ 삭제</DeleteButton>
+                        <EditButton onClick={handleEdit}>수정</EditButton>
+                        <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
                     </ActionButtons>
                 )}
             </Header>
 
             <Section>
-                <SectionTitle>📋 상황 설명</SectionTitle>
+                <SectionTitle>상황 설명</SectionTitle>
                 <Situation>{decision.situation}</Situation>
             </Section>
 
             <Section>
-                <SectionTitle>🔀 선택지 비교</SectionTitle>
+                <SectionTitle>선택지 비교</SectionTitle>
                 <OptionsGrid>
                     {decision.options.map((option, index) => (
                         <OptionCard
@@ -516,17 +520,17 @@ const DecisionDetailPage = () => {
                             </OptionHeader>
 
                             <OptionDetail>
-                                <DetailLabel>✅ 장점</DetailLabel>
+                                <DetailLabel>장점</DetailLabel>
                                 <DetailContent>{option.pros || '없음'}</DetailContent>
                             </OptionDetail>
 
                             <OptionDetail>
-                                <DetailLabel>⚠️ 단점</DetailLabel>
+                                <DetailLabel>단점</DetailLabel>
                                 <DetailContent>{option.cons || '없음'}</DetailContent>
                             </OptionDetail>
 
                             <OptionDetail>
-                                <DetailLabel>🚨 위험 요소</DetailLabel>
+                                <DetailLabel>위험 요소</DetailLabel>
                                 <DetailContent>{option.risks || '없음'}</DetailContent>
                             </OptionDetail>
                         </OptionCard>
@@ -535,7 +539,7 @@ const DecisionDetailPage = () => {
             </Section>
 
             <Section>
-                <SectionTitle>⚖️ 결정 기준</SectionTitle>
+                <SectionTitle>결정 기준</SectionTitle>
                 <CriteriaGrid>
                     <CriteriaItem>
                         <CriteriaName>속도</CriteriaName>
@@ -580,7 +584,7 @@ const DecisionDetailPage = () => {
             </Section>
 
             <Section>
-                <SectionTitle>📝 결과 회고</SectionTitle>
+                <SectionTitle>결과 회고</SectionTitle>
                 {!decision.retrospective && !showRetrospectiveForm && (
                     <div>
                         <p style={{ color: '#999', marginBottom: '16px' }}>
@@ -667,8 +671,8 @@ const DecisionDetailPage = () => {
                             <DetailLabel>판단 평가</DetailLabel>
                             <DetailContent>
                                 {decision.retrospective.wasCorrect === 'yes'
-                                    ? '✅ 좋은 결정이었습니다'
-                                    : '⚠️ 아쉬운 점이 있습니다'}
+                                    ? '좋은 결정이었습니다'
+                                    : '아쉬운 점이 있습니다'}
                             </DetailContent>
                         </RetrospectiveItem>
 
