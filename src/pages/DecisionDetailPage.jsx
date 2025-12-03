@@ -352,8 +352,7 @@ const DecisionDetailPage = () => {
     const navigate = useNavigate();
     const { getDecisionById, addRetrospective, deleteDecision, updateDecision } = useDecisions();
     const { currentUser, isAuthenticated } = useAuth();
-    const decision = getDecisionById(id);
-
+    
     const [showRetrospectiveForm, setShowRetrospectiveForm] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [retrospectiveData, setRetrospectiveData] = useState({
@@ -361,6 +360,8 @@ const DecisionDetailPage = () => {
         wasCorrect: 'yes',
         improvements: ''
     });
+
+    const decision = getDecisionById(id);
 
     if (!decision) {
         return (
@@ -371,7 +372,9 @@ const DecisionDetailPage = () => {
         );
     }
 
-    const isDecisionOwner = isAuthenticated && currentUser && decision.userId === currentUser.id;
+    const isDecisionOwner = isAuthenticated && currentUser?.id === decision?.userId;
+
+    
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -475,7 +478,10 @@ const DecisionDetailPage = () => {
                     >
                         {decision.type}
                     </Badge>
-                    <AuthorBadge>👤 {decision.userName}</AuthorBadge>
+                    <AuthorBadge>
+                        👤 {decision.userName}
+                        {isDecisionOwner && ' (나)'}
+                    </AuthorBadge>
                     <DateText>{formatDate(decision.decisionDate)}</DateText>
                 </Meta>
 

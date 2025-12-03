@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
         }
 
         const newUser = {
-            id: user.id,
+            id: Date.now(),
             name: userData.name,
             email: userData.email,
             password: userData.password, // 실제 서비스에서는 암호화 필요
@@ -86,10 +86,12 @@ export const AuthProvider = ({ children }) => {
         const users = JSON.parse(localStorage.getItem('users') || '[]');
         const userIndex = users.findIndex(u => u.id === currentUser.id);
 
+
         if (userIndex !== -1) {
             users[userIndex] = {
                 ...users[userIndex],
-                ...updateData
+                ...updateData,
+                avatar: updateData.name ? updateData.name.charAt(0).toUpperCase() : users[userIndex].avatar
             };
             localStorage.setItem('users', JSON.stringify(users));
 

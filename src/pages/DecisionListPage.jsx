@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDecisions } from '../context/DecisionContext';
 import DecisionForm from '../components/Decision/DecisionForm';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { ROUTES } from '../routes/routePaths';
 
 const Container = styled.div`
@@ -154,11 +155,18 @@ const EmptyMessage = styled.div`
 
 const DecisionListPage = () => {
     const { decisions, addDecision, getStats } = useDecisions();
+    const { currentUser, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
     const [showForm, setShowForm] = useState(false);
     const stats = getStats();
 
     const handleAddDecision = (decisionData) => {
-        addDecision(decisionData);
+        if (!isAuthenticated) {
+            alert('로그인이 필요합니다.');
+            navigate(ROUTES.LOGIN);
+            return;
+        }
+        addDecision(decisionData, currentUser.id, currentUser.name);
         setShowForm(false);
     };
 
