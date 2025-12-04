@@ -14,7 +14,6 @@ export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // 컴포넌트 마운트 시 로그인 상태 확인
     useEffect(() => {
         const savedUser = localStorage.getItem('currentUser');
         if (savedUser) {
@@ -23,11 +22,9 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(false);
     }, []);
 
-    // 회원가입
     const register = (userData) => {
         const users = JSON.parse(localStorage.getItem('users') || '[]');
         
-        // 이메일 중복 확인
         const existingUser = users.find(user => user.email === userData.email);
         if (existingUser) {
             throw new Error('이미 존재하는 이메일입니다.');
@@ -37,7 +34,7 @@ export const AuthProvider = ({ children }) => {
             id: Date.now(),
             name: userData.name,
             email: userData.email,
-            password: userData.password, // 실제 서비스에서는 암호화 필요
+            password: userData.password,
             avatar: userData.name.charAt(0).toUpperCase(),
             createdAt: new Date().toISOString()
         };
@@ -45,7 +42,6 @@ export const AuthProvider = ({ children }) => {
         users.push(newUser);
         localStorage.setItem('users', JSON.stringify(users));
 
-        // 회원가입 후 자동 로그인
         const userWithoutPassword = { ...newUser };
         delete userWithoutPassword.password;
         setCurrentUser(userWithoutPassword);
@@ -54,7 +50,6 @@ export const AuthProvider = ({ children }) => {
         return userWithoutPassword;
     };
 
-    // 로그인
     const login = (email, password) => {
         const users = JSON.parse(localStorage.getItem('users') || '[]');
         
@@ -75,13 +70,11 @@ export const AuthProvider = ({ children }) => {
         return userWithoutPassword;
     };
 
-    // 로그아웃
     const logout = () => {
         setCurrentUser(null);
         localStorage.removeItem('currentUser');
     };
 
-    // 프로필 업데이트
     const updateProfile = (updateData) => {
         const users = JSON.parse(localStorage.getItem('users') || '[]');
         const userIndex = users.findIndex(u => u.id === currentUser.id);

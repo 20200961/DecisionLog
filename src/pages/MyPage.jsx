@@ -336,25 +336,20 @@ const MyPage = () => {
         email: currentUser?.email || ''
     });
 
-    // 현재 사용자의 의사결정만 가져오기
     const myDecisions = getUserDecisions(currentUser?.id);
     const stats = getUserStats(currentUser?.id);
 
-    // 최근 5개 결정
     const recentDecisions = myDecisions.slice(0, 5);
 
-    // 회고 완료율 계산
     const retrospectiveRate = stats.total > 0 
         ? Math.round((stats.withRetrospective / stats.total) * 100) 
         : 0;
 
-    // 팀/개인 비율 계산
     const teamPercentage = stats.total > 0
         ? (stats.team / stats.total) * 100
         : 0;
     const teamDeg = (360 * teamPercentage) / 100;
 
-    // 결정 기준 평균 계산
     const criteriaAverages = myDecisions.reduce((acc, decision) => {
         acc.speed += decision.criteria.speed;
         acc.cost += decision.criteria.cost;

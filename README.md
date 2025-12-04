@@ -20,7 +20,7 @@
 - Styled Components
 - Context API
 
-데이터는 일단 LocalStorage에 저장했습니다. 백엔드는 나중에 붙일 예정...
+데이터는 일단 LocalStorage에 저장했습니다.
 
 ## 설치 및 실행
 

@@ -177,7 +177,6 @@ const DecisionForm = ({ onSubmit, onCancel, initialData = null }) => {
         }
     });
 
-    // 수정 모드일 때 초기 데이터 설정
     useEffect(() => {
         if (initialData) {
             setFormData(initialData);
