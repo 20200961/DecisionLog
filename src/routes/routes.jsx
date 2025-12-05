@@ -5,6 +5,7 @@ import DecisionListPage from '../pages/DecisionListPage'
 import DecisionDetailPage from '../pages/DecisionDetailPage'
 import MyPage from '../pages/MyPage'
 import Login from '../pages/Login'
+import NotFound from '../pages/NotFound'
 import { ROUTES } from './routePaths'
 
 const AppRoutes = () => {
@@ -16,6 +17,7 @@ const AppRoutes = () => {
           <Route path="decisions/:id" element={<DecisionDetailPage />} />
           <Route path="mypage" element={<MyPage />} />
           <Route path="login" element={<Login />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>
