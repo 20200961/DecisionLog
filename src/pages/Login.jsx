@@ -295,6 +295,7 @@ const Login = () => {
                         {mode === 'login' ? '로그인' : '회원가입'}
                     </Button>
                 </Form>
+                
             </Card>
         </Container>
     );

@@ -109,7 +109,6 @@ const NotFound = () => {
 
     return (
         <Container>
-            <IconContainer>🔍</IconContainer>
             <ErrorCode>404</ErrorCode>
             <ErrorTitle>페이지를 찾을 수 없습니다</ErrorTitle>
             <ErrorMessage>
